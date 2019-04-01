@@ -1,5 +1,7 @@
 require 'redmine'
 
+require_dependency 'google_oauth2/hooks'
+
 Redmine::Plugin.register :google_oauth2 do
   name 'Google Oauth2'
   author 'Pranav Chaturvedi'

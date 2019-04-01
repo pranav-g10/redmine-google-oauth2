@@ -1,0 +1,13 @@
+.google-oauth2-login-links {
+  text-align: center;
+}
+
+.btn_google_auth2 {
+  display: inline-flex;
+  background: #4285F4;
+  text-align: center;
+  align-items: center;
+  color: #ffffff;
+  text-decoration: none;
+  padding-right: 8px;
+}

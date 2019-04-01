@@ -3,6 +3,7 @@ class GoogleOauth2Controller < AccountController
 
   def login
     auth = request.env['omniauth.auth']
+    #render inline: auth.to_json
     authenticate(auth)
   end
 
@@ -29,14 +30,9 @@ class GoogleOauth2Controller < AccountController
       return redirect_to :controller => :account, :action => :login
     end
 
-    profile_url = raw_info['profile']
-    unless !!profile_url
-      flash[:error] = 'Could not ascertain Identity URL from Oauth2 response'
-      return redirect_to :controller => :account, :action => :login
-    end
-
     email = info['email']
-    unless !!email && info['email_verified']
+    profile_url = raw_info['profile'] || email
+    unless !!profile_url && !!email && info['email_verified']
       flash[:error] = 'Email is missing or not verified'
       return redirect_to :controller => :account, :action => :login
     end

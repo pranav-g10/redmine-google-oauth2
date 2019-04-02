@@ -31,7 +31,12 @@ class GoogleOauth2Controller < AccountController
     end
 
     email = info['email']
-    profile_url = raw_info['profile'] || email
+    profile_url = begin
+                    OpenIdAuthentication.normalize_identifier(raw_info['profile'] || email)
+                  rescue OpenIdAuthentication::InvalidOpenId
+                    flash[:error] = 'Could not ascertain Identity URL from response'
+                    return redirect_to :controller => :account, :action => :login
+                  end
     unless !!profile_url && !!email && info['email_verified']
       flash[:error] = 'Email is missing or not verified'
       return redirect_to :controller => :account, :action => :login
